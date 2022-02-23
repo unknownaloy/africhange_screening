@@ -15,7 +15,7 @@ class CurrencyRepository implements CurrencyRepositoryInterface {
   CurrencyRepository({required http.Client client}) : _client = client;
 
   @override
-  Future<List<CurrencyRate>?> getLatestCurrencyRates() async {
+  Future<List<CurrencyRate>> getLatestCurrencyRates() async {
     try {
       Map<String, String> queryParams = {
         "access_key": kFixerApiKey,

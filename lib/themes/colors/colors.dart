@@ -18,4 +18,6 @@ const kGreyColor1 = Color(0xffA0C1E3);
 
 const kGreyColor2 = Color(0xff52A2C7);
 
+const kGreyColor3 = Color(0xff898989);
+
 const kSuffixColor = Color(0xffCBCBCB);
