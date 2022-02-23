@@ -18,5 +18,13 @@ ThemeData lightTheme () {
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: kAccentColor,
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: kGreyColor,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide.none,
+        )
+    )
   );
 }
