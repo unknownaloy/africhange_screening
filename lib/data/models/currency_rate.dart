@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part '../currency_rate.g.dart';
+part 'currency_rate.g.dart';
 
 @JsonSerializable()
 class CurrencyRate extends Equatable {
   final String symbol;
-  final double rate;
+  final num rate;
 
   const CurrencyRate({
     required this.symbol,
