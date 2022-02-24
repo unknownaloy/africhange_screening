@@ -1,6 +1,8 @@
 import 'package:africhange_screening/data/models/currency_rate.dart';
 import 'package:africhange_screening/features/home/view_model/home_view_model.dart';
+import 'package:africhange_screening/reusables/country_flag_loader.dart';
 import 'package:africhange_screening/themes/colors/colors.dart';
+import 'package:africhange_screening/utils/country_code_extractor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -41,7 +43,7 @@ class CurrencySelectOption extends StatelessWidget {
               value: value.symbol,
               child: Row(
                 children: [
-                  Text("h", style: TextStyle(color: Colors.black),),
+                  CountryFlagLoader(flagUrl: CountryCodeUrlExtractor.extract(value.symbol),),
                   const SizedBox(width: 8.0,),
                   Text(
                     value.symbol,

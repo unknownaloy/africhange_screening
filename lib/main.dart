@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Currency Converter',
         theme: lightTheme(),
         home: const Home(),
         themeMode: ThemeMode.light,
