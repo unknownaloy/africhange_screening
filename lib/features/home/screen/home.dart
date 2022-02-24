@@ -1,5 +1,7 @@
 import 'package:africhange_screening/features/home/view_model/home_view_model.dart';
 import 'package:africhange_screening/reusables/calculator_display_text.dart';
+import 'package:africhange_screening/reusables/currency_convert_button.dart';
+import 'package:africhange_screening/reusables/currency_input_field.dart';
 import 'package:africhange_screening/reusables/currency_select_options.dart';
 import 'package:africhange_screening/reusables/custom_app_bar.dart';
 import 'package:africhange_screening/themes/colors/colors.dart';
@@ -14,6 +16,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
   @override
   void initState() {
     super.initState();
@@ -59,20 +62,7 @@ class _HomeState extends State<Home> {
                       /// Currency calculator display text
                       const CalculatorDisplayText(),
 
-                      TextField(
-                        style: Theme.of(context).textTheme.bodyText2,
-                        decoration: InputDecoration(
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.only(right: 24.0),
-                            child: Text(
-                              model.fromCurrency,
-                              style: const TextStyle(color: kSuffixColor),
-                            ),
-                          ),
-                          suffixIconConstraints:
-                              const BoxConstraints(minWidth: 0, minHeight: 0),
-                        ),
-                      ),
+                      const CurrencyInputField(),
 
                       const SizedBox(
                         height: 24.0,
@@ -103,7 +93,8 @@ class _HomeState extends State<Home> {
                           Expanded(
                             child: CurrencySelectOption(
                               defaultOption: model.fromCurrency,
-                              onOptionChange: (option) => model.updateFromCurrencyOption(option),
+                              onOptionChange: (option) =>
+                                  model.updateFromCurrencyOption(option),
                             ),
                           ),
                           GestureDetector(
@@ -116,7 +107,8 @@ class _HomeState extends State<Home> {
                           Expanded(
                             child: CurrencySelectOption(
                               defaultOption: model.toCurrency,
-                              onOptionChange: (option) => model.updateToCurrencyOption(option),
+                              onOptionChange: (option) =>
+                                  model.updateToCurrencyOption(option),
                             ),
                           ),
                         ],
@@ -126,19 +118,7 @@ class _HomeState extends State<Home> {
                         height: 48.0,
                       ),
 
-                      TextButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(kAccentColor),
-                          minimumSize: MaterialStateProperty.all<Size>(
-                              const Size.fromHeight(56.0)),
-                        ),
-                        child: Text(
-                          "Convert",
-                          style: Theme.of(context).textTheme.button,
-                        ),
-                      ),
+                     const CurrencyConvertButton(),
                     ],
                   ),
                 ),

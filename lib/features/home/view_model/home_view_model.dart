@@ -22,6 +22,17 @@ class HomeViewModel extends ChangeNotifier {
   String _toCurrency = "NGN";
   String get toCurrency => _toCurrency;
 
+  num _fromCurrencyRate = 0;
+  num get fromCurrencyRate => _fromCurrencyRate;
+
+  num _toCurrencyRate = 0;
+  num get toCurrencyRate => _toCurrencyRate;
+
+  // CurrencyRate _testingOne = CurrencyRate(
+  //   symbol: "EUR",
+  //   rate: 0,
+  // );
+
   void fetchLatestCurrencyRates() async {
     try {
       _requestState = const RequestState.loading();
@@ -45,7 +56,7 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateFromCurrencyOption (String? option) {
+  void updateFromCurrencyOption(String? option) {
     if (option == null) {
       return;
     }
@@ -58,16 +69,29 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateToCurrencyOption (String? option) {
+  void updateToCurrencyOption(String? option) {
     if (option == null) {
       return;
     }
 
     if (option == _fromCurrency) {
-      _fromCurrency= _toCurrency;
+      _fromCurrency = _toCurrency;
     }
 
     _toCurrency = option;
     notifyListeners();
+  }
+
+  void updateFromCurrencyRate(String value) {
+    if (value.isEmpty) {
+      return;
+    }
+
+    final amount = int.parse(value);
+    _fromCurrencyRate = amount;
+  }
+
+  void convertCurrency() {
+
   }
 }
