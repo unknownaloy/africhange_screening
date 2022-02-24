@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dev.chichebem.africhange_screening">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
    <application
         android:label="africhange_screening"
         android:name="${applicationName}"
