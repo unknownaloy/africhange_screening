@@ -13,22 +13,61 @@ class HomeViewModel extends ChangeNotifier {
   List<CurrencyRate> _currencyRates = [];
   List<CurrencyRate> get currencyRates => [..._currencyRates];
 
-  var requestState = const RequestState.idle();
-  // var get requestState => _requestState;
+  RequestState _requestState = const RequestState.idle();
+  RequestState get requestState => _requestState;
 
+  String _fromCurrency = "EUR";
+  String get fromCurrency => _fromCurrency;
 
-  void fetchLatestCurrencyRates () async {
+  String _toCurrency = "NGN";
+  String get toCurrency => _toCurrency;
+
+  void fetchLatestCurrencyRates() async {
     try {
-      requestState = const RequestState.loading();
-      // notifyListeners();
+      _requestState = const RequestState.loading();
 
       _currencyRates = await _currencyService.getLatestCurrencyRates();
 
-      requestState = const RequestState.success();
+      _requestState = const RequestState.success();
       notifyListeners();
     } on Failure catch (e) {
-      requestState = RequestState.error(error: e.message);
+      _requestState = RequestState.error(error: e.message);
       notifyListeners();
     }
+  }
+
+  void swapFromAndToCurrencies() {
+    final previousFromCurrency = _fromCurrency;
+    final previousToCurrency = _toCurrency;
+
+    _fromCurrency = previousToCurrency;
+    _toCurrency = previousFromCurrency;
+    notifyListeners();
+  }
+
+  void updateFromCurrencyOption (String? option) {
+    if (option == null) {
+      return;
+    }
+
+    if (option == _toCurrency) {
+      _toCurrency = _fromCurrency;
+    }
+
+    _fromCurrency = option;
+    notifyListeners();
+  }
+
+  void updateToCurrencyOption (String? option) {
+    if (option == null) {
+      return;
+    }
+
+    if (option == _fromCurrency) {
+      _fromCurrency= _toCurrency;
+    }
+
+    _toCurrency = option;
+    notifyListeners();
   }
 }

@@ -1,5 +1,8 @@
 import 'package:africhange_screening/data/models/currency_rate.dart';
 import 'package:africhange_screening/features/home/view_model/home_view_model.dart';
+import 'package:africhange_screening/reusables/calculator_display_text.dart';
+import 'package:africhange_screening/reusables/currency_select_options.dart';
+import 'package:africhange_screening/reusables/custom_app_bar.dart';
 import 'package:africhange_screening/themes/colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -47,60 +50,28 @@ class _HomeState extends State<Home> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // TODO: Move to reusable component
                       /// App bar
-                      SizedBox(
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Image.asset(
-                              "assets/images/menu.png",
-                              width: 24.0,
-                              height: 24.0,
-                              color: kAccentColor,
-                            ),
-                            Text(
-                              "Sign up",
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
-                          ],
-                        ),
-                      ),
+                      const CustomAppBar(),
 
                       const SizedBox(
                         height: 64.0,
                       ),
 
-                      /// Currency calculator text
-                      RichText(
-                        text: TextSpan(
-                          text: "Currency \nCalculator",
-                          style: Theme.of(context).textTheme.headline1,
-                          children: [
-                            TextSpan(
-                              text: ".",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline1
-                                  ?.copyWith(color: kAccentColor),
-                            ),
-                          ],
-                        ),
-                      ),
+                      /// Currency calculator display text
+                      const CalculatorDisplayText(),
 
                       TextField(
                         style: Theme.of(context).textTheme.bodyText2,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           suffixIcon: Padding(
-                            padding: EdgeInsets.only(right: 24.0),
+                            padding: const EdgeInsets.only(right: 24.0),
                             child: Text(
-                              "EUR",
-                              style: TextStyle(color: kSuffixColor),
+                              model.fromCurrency,
+                              style: const TextStyle(color: kSuffixColor),
                             ),
                           ),
                           suffixIconConstraints:
-                              BoxConstraints(minWidth: 0, minHeight: 0),
+                              const BoxConstraints(minWidth: 0, minHeight: 0),
                         ),
                       ),
 
@@ -108,18 +79,20 @@ class _HomeState extends State<Home> {
                         height: 24.0,
                       ),
 
-                      TextField(
-                        style: Theme.of(context).textTheme.bodyText2,
-                        decoration: const InputDecoration(
-                          suffixIcon: Padding(
-                            padding: EdgeInsets.only(right: 24.0),
-                            child: Text(
-                              "NGN",
-                              style: TextStyle(color: kSuffixColor),
+                      IgnorePointer(
+                        child: TextField(
+                          style: Theme.of(context).textTheme.bodyText2,
+                          decoration: InputDecoration(
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.only(right: 24.0),
+                              child: Text(
+                                model.toCurrency,
+                                style: const TextStyle(color: kSuffixColor),
+                              ),
                             ),
+                            suffixIconConstraints:
+                                const BoxConstraints(minWidth: 0, minHeight: 0),
                           ),
-                          suffixIconConstraints:
-                              BoxConstraints(minWidth: 0, minHeight: 0),
                         ),
                       ),
 
@@ -129,86 +102,22 @@ class _HomeState extends State<Home> {
                       Row(
                         children: [
                           Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.all(10.0),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: kGreyColor,
-                                  width: 2.0,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10.0),
-                                ),
-                              ),
-                              child: DropdownButton<String>(
-                                value: "EUR",
-                                isExpanded: true,
-                                isDense: true,
-                                underline: Container(),
-                                iconEnabledColor: kAccentColor,
-                                dropdownColor: kWhiteColor,
-                                items: model.currencyRates
-                                    .map<DropdownMenuItem<String>>(
-                                        (CurrencyRate value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value.symbol,
-                                    child: Text(
-                                      value.symbol,
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2,
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (String? value) {
-                                  // setState(() {
-                                  //   _dropdownMenuSelected = value;
-                                  // });
-                                },
-                              ),
+                            child: CurrencySelectOption(
+                              defaultOption: model.fromCurrency,
+                              onOptionChange: (option) => model.updateFromCurrencyOption(option),
                             ),
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Icon(Icons.sync_alt),
+                          GestureDetector(
+                            onTap: () => model.swapFromAndToCurrencies(),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Icon(Icons.sync_alt),
+                            ),
                           ),
                           Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.all(10.0),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: kGreyColor,
-                                  width: 2.0,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10.0),
-                                ),
-                              ),
-                              child: DropdownButton<String>(
-                                value: "NGN",
-                                isExpanded: true,
-                                isDense: true,
-                                underline: Container(),
-                                iconEnabledColor: kAccentColor,
-                                dropdownColor: kWhiteColor,
-                                items: model.currencyRates
-                                    .map<DropdownMenuItem<String>>(
-                                        (CurrencyRate value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value.symbol,
-                                        child: Text(
-                                          value.symbol,
-                                          style:
-                                          Theme.of(context).textTheme.bodyText2,
-                                        ),
-                                      );
-                                    }).toList(),
-                                onChanged: (String? value) {
-                                  // setState(() {
-                                  //   _dropdownMenuSelected = value;
-                                  // });
-                                },
-                              ),
+                            child: CurrencySelectOption(
+                              defaultOption: model.toCurrency,
+                              onOptionChange: (option) => model.updateToCurrencyOption(option),
                             ),
                           ),
                         ],

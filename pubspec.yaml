@@ -20,6 +20,7 @@ dependencies:
 
 #  Network / Connectivity
   http: ^0.13.4
+  cached_network_image: ^3.2.0
 
 #  Utilities
   freezed_annotation: ^1.1.0
