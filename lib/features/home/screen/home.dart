@@ -1,4 +1,3 @@
-import 'package:africhange_screening/data/models/currency_rate.dart';
 import 'package:africhange_screening/features/home/view_model/home_view_model.dart';
 import 'package:africhange_screening/reusables/calculator_display_text.dart';
 import 'package:africhange_screening/reusables/currency_select_options.dart';
