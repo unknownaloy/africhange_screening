@@ -117,6 +117,8 @@ class _HomeState extends State<Home> {
                         child: CalculatorDisplayText(),
                       ),
 
+                      const SizedBox(height: 32.0,),
+
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: CurrencyInputField(

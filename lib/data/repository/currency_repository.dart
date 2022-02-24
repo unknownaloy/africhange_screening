@@ -42,7 +42,7 @@ class CurrencyRepository implements CurrencyRepositoryInterface {
 
         return currentRates;
       } else {
-        throw Failure(decodedData["message"]);
+        throw Failure(decodedData["error"]["type"]);
       }
     } on SocketException catch (_) {
       throw Failure("No internet connection");
@@ -106,7 +106,7 @@ class CurrencyRepository implements CurrencyRepositoryInterface {
     } on Failure catch (e) {
       throw Failure(e.message);
     } catch (e) {
-      throw Failure("Something went wrong. Try again - $e");
+      throw Failure("Something went wrong. Try again");
     }
   }
 }

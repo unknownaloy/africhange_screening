@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       ),
       child: MaterialApp(
         title: 'Currency Converter',
+        debugShowCheckedModeBanner: false,
         theme: lightTheme(),
         home: const Home(),
         themeMode: ThemeMode.light,

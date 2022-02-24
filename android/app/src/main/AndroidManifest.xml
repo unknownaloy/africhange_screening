@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
    <application
-        android:label="africhange_screening"
+        android:label="Currency Converter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
