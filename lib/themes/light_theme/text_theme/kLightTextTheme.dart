@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 final TextTheme kLightTextTheme = TextTheme(
   headline1: kHeadLine1Style,
   headline6: kHeadLine6Style,
+  bodyText1: kBodyLargeStyle,
   bodyText2: kBodyText2Style,
   button: kButtonTextStyle,
   overline: kOverLineTextStyle,

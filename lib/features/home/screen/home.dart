@@ -4,7 +4,6 @@ import 'package:africhange_screening/reusables/chart_data.dart';
 import 'package:africhange_screening/reusables/currency_convert_button.dart';
 import 'package:africhange_screening/reusables/currency_input_field.dart';
 import 'package:africhange_screening/reusables/currency_select_options.dart';
-import 'package:africhange_screening/reusables/custom_app_bar.dart';
 import 'package:africhange_screening/reusables/to_currency_field.dart';
 import 'package:africhange_screening/themes/colors/colors.dart';
 import 'package:africhange_screening/utils/date_formatter.dart';
@@ -47,99 +46,143 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 48.0,
-          ),
-          child: Consumer<HomeViewModel>(
-            builder: (_, model, __) {
-              return model.requestState.map(
-                idle: (_) => const Center(
-                  child: CircularProgressIndicator(
-                    color: kAccentColor,
-                    strokeWidth: 2.0,
-                  ),
+        body: Consumer<HomeViewModel>(
+          builder: (_, model, __) {
+            return model.requestState.map(
+              idle: (_) => const Center(
+                child: CircularProgressIndicator(
+                  color: kAccentColor,
+                  strokeWidth: 2.0,
                 ),
-                loading: (_) => const Center(
-                  child: CircularProgressIndicator(
-                    color: kAccentColor,
-                    strokeWidth: 2.0,
-                  ),
+              ),
+              loading: (_) => const Center(
+                child: CircularProgressIndicator(
+                  color: kAccentColor,
+                  strokeWidth: 2.0,
                 ),
-                error: (event) => Center(
-                  child: Text(
-                    event.error,
-                  ),
+              ),
+              error: (event) => Center(
+                child: Text(
+                  event.error,
                 ),
-                success: (_) => SingleChildScrollView(
+              ),
+              success: (_) => NestedScrollView(
+                headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                  return <Widget>[
+                    SliverOverlapAbsorber(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                      sliver: SliverAppBar(
+                        backgroundColor: Colors.transparent,
+                        floating: false,
+                        // pinned: true,
+                        leading: Builder(
+                          builder: (BuildContext context) {
+                            return IconButton(
+                              icon:  Image.asset(
+                                "assets/images/menu.png",
+                                width: 32.0,
+                                height: 32.0,
+                                color: kAccentColor,
+                              ),
+                              onPressed: () {
+                                Scaffold.of(context).openDrawer();
+                                // TODO: Get the design for the Market Drawer, design and implement the logic
+                              },
+                              tooltip:
+                              MaterialLocalizations.of(context).openAppDrawerTooltip,
+                            );
+                          },
+                        ),
+                        actions: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16.0, right: 8.0),
+                            child: Text(
+                              "Sign up",
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ];
+                },
+                body: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      /// App bar
-                      const CustomAppBar(),
-
-                      const SizedBox(
-                        height: 64.0,
+                      /// Currency calculator display text
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        child: CalculatorDisplayText(),
                       ),
 
-                      /// Currency calculator display text
-                      const CalculatorDisplayText(),
-
-                      CurrencyInputField(
-                        textController: _textController,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: CurrencyInputField(
+                          textController: _textController,
+                        ),
                       ),
 
                       const SizedBox(
                         height: 24.0,
                       ),
 
-                      const ToCurrencyField(),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        child: ToCurrencyField(),
+                      ),
 
                       const SizedBox(height: 40.0),
 
                       /// Currency switch display
-                      Row(
-                        children: [
-                          Expanded(
-                            child: CurrencySelectOption(
-                              defaultOption: model.fromCurrencyRate.symbol,
-                              onOptionChange: (option) =>
-                                  model.updateFromCurrencyOption(option),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: CurrencySelectOption(
+                                defaultOption: model.fromCurrencyRate.symbol,
+                                onOptionChange: (option) =>
+                                    model.updateFromCurrencyOption(option),
+                              ),
                             ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              model.swapFromAndToCurrencies();
-                              _textController.text =
-                                  model.fromCurrencyRate.rate.toString();
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Icon(Icons.sync_alt),
+                            GestureDetector(
+                              onTap: () {
+                                model.swapFromAndToCurrencies();
+                                _textController.text =
+                                    model.fromCurrencyRate.rate.toString();
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                child: Icon(Icons.sync_alt),
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: CurrencySelectOption(
-                              defaultOption: model.toCurrencyRate.symbol,
-                              onOptionChange: (option) =>
-                                  model.updateToCurrencyOption(option),
+                            Expanded(
+                              child: CurrencySelectOption(
+                                defaultOption: model.toCurrencyRate.symbol,
+                                onOptionChange: (option) =>
+                                    model.updateToCurrencyOption(option),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
 
                       const SizedBox(
                         height: 48.0,
                       ),
 
-                      const CurrencyConvertButton(),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        child: CurrencyConvertButton(),
+                      ),
 
                       const SizedBox(
                         height: 32.0,
                       ),
 
-                      Align(
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         alignment: Alignment.center,
                         child: Text(
                           "Mid-market exchange rate at ${DateFormatter.getTimeIn24HoursFormat()} UTC",
@@ -150,6 +193,7 @@ class _HomeState extends State<Home> {
                       const SizedBox(
                         height: 32.0,
                       ),
+
 
                       model.historicPriceRequestState.map(
                         idle: (_) => const Center(
@@ -174,9 +218,9 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
