@@ -41,11 +41,14 @@ class CurrencyViewModel extends ChangeNotifier {
   ///
   /// NOTE: The value of this is initialized after a successfully querying for
   /// the [_currencyRates] data
-  late CurrencyRate _toCurrencyRate;
+  CurrencyRate _toCurrencyRate = const CurrencyRate(
+    symbol: "NGN",
+    rate: 1,
+  );
   CurrencyRate get toCurrencyRate => _toCurrencyRate;
 
   /// Method for fetching the [_currencyRates] data
-  void fetchLatestCurrencyRates() async {
+  Future<void> fetchLatestCurrencyRates() async {
     try {
       _requestState = const RequestState.loading();
 
@@ -65,7 +68,7 @@ class CurrencyViewModel extends ChangeNotifier {
     }
   }
 
-  void getHistoricPriceRange() async {
+  Future<void> getHistoricPriceRange() async {
     try {
       _historicPriceRequestState = const RequestState.loading();
 

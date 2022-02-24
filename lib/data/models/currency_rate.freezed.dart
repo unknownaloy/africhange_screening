@@ -122,8 +122,8 @@ class __$CurrencyRateCopyWithImpl<$Res> extends _$CurrencyRateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CurrencyRate extends _CurrencyRate {
-  const _$_CurrencyRate({required this.symbol, required this.rate}) : super._();
+class _$_CurrencyRate implements _CurrencyRate {
+  const _$_CurrencyRate({required this.symbol, required this.rate});
 
   factory _$_CurrencyRate.fromJson(Map<String, dynamic> json) =>
       _$$_CurrencyRateFromJson(json);
@@ -132,6 +132,26 @@ class _$_CurrencyRate extends _CurrencyRate {
   final String symbol;
   @override
   final num rate;
+
+  @override
+  String toString() {
+    return 'CurrencyRate(symbol: $symbol, rate: $rate)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _CurrencyRate &&
+            const DeepCollectionEquality().equals(other.symbol, symbol) &&
+            const DeepCollectionEquality().equals(other.rate, rate));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(symbol),
+      const DeepCollectionEquality().hash(rate));
 
   @JsonKey(ignore: true)
   @override
@@ -144,10 +164,9 @@ class _$_CurrencyRate extends _CurrencyRate {
   }
 }
 
-abstract class _CurrencyRate extends CurrencyRate {
+abstract class _CurrencyRate implements CurrencyRate {
   const factory _CurrencyRate({required String symbol, required num rate}) =
       _$_CurrencyRate;
-  const _CurrencyRate._() : super._();
 
   factory _CurrencyRate.fromJson(Map<String, dynamic> json) =
       _$_CurrencyRate.fromJson;
