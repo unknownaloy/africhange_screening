@@ -1,6 +1,6 @@
 import 'package:africhange_screening/data/repository/currency_repository.dart';
 import 'package:africhange_screening/features/home/screen/home.dart';
-import 'package:africhange_screening/features/home/view_model/home_view_model.dart';
+import 'package:africhange_screening/features/home/view_model/currency_view_model.dart';
 import 'package:africhange_screening/themes/light_theme/light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<HomeViewModel>(
-      create: (_) => HomeViewModel(
+    return ChangeNotifierProvider<CurrencyViewModel>(
+      create: (_) => CurrencyViewModel(
         currencyRepository: CurrencyRepository(
           client: http.Client(),
         ),

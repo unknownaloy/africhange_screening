@@ -1,4 +1,4 @@
-import 'package:africhange_screening/features/home/view_model/home_view_model.dart';
+import 'package:africhange_screening/features/home/view_model/currency_view_model.dart';
 import 'package:africhange_screening/themes/colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +8,7 @@ class CurrencyConvertButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeViewModel>(
+    return Consumer<CurrencyViewModel>(
       builder: (_, model, __) => TextButton(
         onPressed: () => model.calculateConversionRate(),
         style: ButtonStyle(

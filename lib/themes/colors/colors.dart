@@ -6,9 +6,9 @@ const kBlackColor = Color(0xff000000);
 
 const kSecondaryColor = Color(0xff185DFA);
 
-const kSecondaryColor1 = Color(0xff012CEA);
+// const kSecondaryColor1 = Color(0xff012CEA);
 
-const kSecondaryColor2 = Color(0xff0021AF);
+// const kSecondaryColor2 = Color(0xff0021AF);
 
 const kAccentColor = Color(0xff01B252);
 

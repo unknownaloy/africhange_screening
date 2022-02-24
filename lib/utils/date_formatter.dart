@@ -4,17 +4,31 @@ DateTime _generateSystemTime() {
   return DateTime.now();
 }
 
+int _generateSystemTime2() {
+  return DateTime.now().millisecondsSinceEpoch;
+}
+
 class DateFormatter {
+
+  final DateTime Function() _getCurrentTime;
+
+  DateFormatter([this._getCurrentTime = _generateSystemTime]);
+
   static final _24HoursFormat = DateFormat('H:m');
 
   static final _yearFormat = DateFormat("y");
   static final _monthFormat = DateFormat("M");
   static final _dayFormat = DateFormat("d");
 
-  static String getTimeIn24HoursFormat() {
-    final currentTime = _generateSystemTime();
+   String getTimeIn24HoursFormat([DateTime? dateTime]) {
 
-    return _24HoursFormat.format(currentTime);
+    if (dateTime == null) {
+      final currentTime = _generateSystemTime();
+
+      return _24HoursFormat.format(currentTime);
+    }
+
+    return _24HoursFormat.format(dateTime);
   }
 
   /// This method uses the [_getStipulatedDate] and [_getFormattedYearMonthDay]

@@ -1,4 +1,4 @@
-import 'package:africhange_screening/features/home/view_model/home_view_model.dart';
+import 'package:africhange_screening/features/home/view_model/currency_view_model.dart';
 import 'package:africhange_screening/themes/colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,11 +14,11 @@ class CurrencyInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeViewModel>(
+    return Consumer<CurrencyViewModel>(
       builder: (_, model, __) => TextField(
         controller: textController,
         keyboardType: TextInputType.number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))],
         style: Theme.of(context).textTheme.bodyText2,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(

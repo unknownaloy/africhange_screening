@@ -1,4 +1,4 @@
-import 'package:africhange_screening/features/home/view_model/home_view_model.dart';
+import 'package:africhange_screening/features/home/view_model/currency_view_model.dart';
 import 'package:africhange_screening/reusables/calculator_display_text.dart';
 import 'package:africhange_screening/reusables/chart_data.dart';
 import 'package:africhange_screening/reusables/currency_convert_button.dart';
@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
   late final TextEditingController _textController;
 
   void _textListener() {
-    final model = context.read<HomeViewModel>();
+    final model = context.read<CurrencyViewModel>();
 
     final value = _textController.text.trim();
     model.updateFromCurrencyRate(value);
@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
 
-    final model = context.read<HomeViewModel>();
+    final model = context.read<CurrencyViewModel>();
 
     model.fetchLatestCurrencyRates();
 
@@ -44,9 +44,10 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final dateFormatter = DateFormatter();
     return SafeArea(
       child: Scaffold(
-        body: Consumer<HomeViewModel>(
+        body: Consumer<CurrencyViewModel>(
           builder: (_, model, __) {
             return model.requestState.map(
               idle: (_) => const Center(
@@ -185,7 +186,7 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         alignment: Alignment.center,
                         child: Text(
-                          "Mid-market exchange rate at ${DateFormatter.getTimeIn24HoursFormat()} UTC",
+                          "Mid-market exchange rate at ${dateFormatter.getTimeIn24HoursFormat()} UTC",
                           style: Theme.of(context).textTheme.overline,
                         ),
                       ),

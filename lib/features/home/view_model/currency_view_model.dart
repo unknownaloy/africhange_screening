@@ -5,10 +5,10 @@ import 'package:africhange_screening/utils/date_formatter.dart';
 import 'package:africhange_screening/utils/failure.dart';
 import 'package:flutter/material.dart';
 
-class HomeViewModel extends ChangeNotifier {
+class CurrencyViewModel extends ChangeNotifier {
   final CurrencyRepository _currencyService;
 
-  HomeViewModel({required CurrencyRepository currencyRepository})
+  CurrencyViewModel({required CurrencyRepository currencyRepository})
       : _currencyService = currencyRepository;
 
   /// This variable holds the list of currencies and their current rates
