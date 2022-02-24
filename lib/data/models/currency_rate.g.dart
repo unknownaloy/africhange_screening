@@ -6,12 +6,13 @@ part of 'currency_rate.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CurrencyRate _$CurrencyRateFromJson(Map<String, dynamic> json) => CurrencyRate(
+_$_CurrencyRate _$$_CurrencyRateFromJson(Map<String, dynamic> json) =>
+    _$_CurrencyRate(
       symbol: json['symbol'] as String,
       rate: json['rate'] as num,
     );
 
-Map<String, dynamic> _$CurrencyRateToJson(CurrencyRate instance) =>
+Map<String, dynamic> _$$_CurrencyRateToJson(_$_CurrencyRate instance) =>
     <String, dynamic>{
       'symbol': instance.symbol,
       'rate': instance.rate,

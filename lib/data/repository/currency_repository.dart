@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:africhange_screening/config/api_config/currency_apis.dart';
 import 'package:africhange_screening/config/api_keys/fixer_api_key.dart';
-import 'package:africhange_screening/data/models/convert_rate.dart';
 import 'package:africhange_screening/data/models/currency_rate.dart';
 import 'package:africhange_screening/domain/currency_repository_interface.dart';
 import 'package:africhange_screening/utils/failure.dart';
@@ -42,56 +41,6 @@ class CurrencyRepository implements CurrencyRepositoryInterface {
             .toList();
 
         return currentRates;
-      } else {
-        throw Failure(decodedData["message"]);
-      }
-    } on SocketException catch (_) {
-      throw Failure("No internet connection");
-    } on HttpException {
-      throw Failure("Service not currently available");
-    } on TimeoutException catch (_) {
-      throw Failure("Poor internet connection");
-    } on Failure catch (e) {
-      throw Failure(e.message);
-    } catch (e) {
-      throw Failure("Something went wrong. Try again - $e");
-    }
-  }
-
-  @override
-  Future<ConvertRate> getCurrencyConvertRate({
-    required String fromCurrency,
-    required String toCurrency,
-    required num amount,
-  }) async {
-    try {
-      Map<String, String> queryParams = {
-        "access_key": kFixerApiKey,
-        "from": fromCurrency,
-        "to": toCurrency,
-        "amount": amount.toString(),
-      };
-
-      var url = Uri.parse(getCurrencyConvertUrl)
-          .replace(queryParameters: queryParams);
-
-      final response = await _client.get(url);
-
-      final decodedData = jsonDecode(response.body);
-
-      print("CurrencyRepository -> getCurrencyConvertRate == decodedData -- $decodedData");
-
-      if (decodedData["success"] == true) {
-        final info = decodedData["info"] as Map<String, dynamic>;
-
-        print("CurrencyRepository -> getCurrencyConvertRate == info -- $info");
-
-        ConvertRate convertRate = ConvertRate.fromJson(info);
-
-        print("CurrencyRepository -> getCurrencyConvertRate == convertRate -- $convertRate");
-
-        return convertRate;
-
       } else {
         throw Failure(decodedData["message"]);
       }

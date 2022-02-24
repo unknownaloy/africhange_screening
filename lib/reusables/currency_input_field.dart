@@ -4,51 +4,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class CurrencyInputField extends StatefulWidget {
-  const CurrencyInputField({Key? key}) : super(key: key);
+class CurrencyInputField extends StatelessWidget {
+  final TextEditingController textController;
 
-  @override
-  _CurrencyInputFieldState createState() => _CurrencyInputFieldState();
-}
-
-class _CurrencyInputFieldState extends State<CurrencyInputField> {
-  late final TextEditingController _textController;
-
-  void _textListener() {
-    final model = context.read<HomeViewModel>();
-
-    final value = _textController.text.trim();
-    model.updateFromCurrencyRate(value);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _textController = TextEditingController();
-    _textController.addListener(_textListener);
-  }
-
-  @override
-  void dispose() {
-    _textController.dispose();
-
-    super.dispose();
-  }
+  const CurrencyInputField({
+    Key? key,
+    required this.textController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeViewModel>(
       builder: (_, model, __) => TextField(
-        controller: _textController,
+        controller: textController,
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         style: Theme.of(context).textTheme.bodyText2,
         decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 24.0,
+            vertical: 16.0,
+          ),
           suffixIcon: Padding(
             padding: const EdgeInsets.only(right: 24.0),
             child: Text(
-              model.fromCurrency,
+              model.fromCurrencyRate.symbol,
               style: const TextStyle(color: kSuffixColor),
             ),
           ),

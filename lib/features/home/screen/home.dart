@@ -4,6 +4,7 @@ import 'package:africhange_screening/reusables/currency_convert_button.dart';
 import 'package:africhange_screening/reusables/currency_input_field.dart';
 import 'package:africhange_screening/reusables/currency_select_options.dart';
 import 'package:africhange_screening/reusables/custom_app_bar.dart';
+import 'package:africhange_screening/reusables/to_currency_field.dart';
 import 'package:africhange_screening/themes/colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,12 +17,26 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late final TextEditingController _textController;
+
+  void _textListener() {
+    final model = context.read<HomeViewModel>();
+
+    final value = _textController.text.trim();
+    model.updateFromCurrencyRate(value);
+  }
 
   @override
   void initState() {
     super.initState();
 
-    context.read<HomeViewModel>().fetchLatestCurrencyRates();
+    final model = context.read<HomeViewModel>();
+
+    model.fetchLatestCurrencyRates();
+
+    _textController =
+        TextEditingController(text: model.fromCurrencyRate.rate.toString());
+    _textController.addListener(_textListener);
   }
 
   @override
@@ -62,28 +77,15 @@ class _HomeState extends State<Home> {
                       /// Currency calculator display text
                       const CalculatorDisplayText(),
 
-                      const CurrencyInputField(),
+                      CurrencyInputField(
+                        textController: _textController,
+                      ),
 
                       const SizedBox(
                         height: 24.0,
                       ),
 
-                      IgnorePointer(
-                        child: TextField(
-                          style: Theme.of(context).textTheme.bodyText2,
-                          decoration: InputDecoration(
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.only(right: 24.0),
-                              child: Text(
-                                model.toCurrency,
-                                style: const TextStyle(color: kSuffixColor),
-                              ),
-                            ),
-                            suffixIconConstraints:
-                                const BoxConstraints(minWidth: 0, minHeight: 0),
-                          ),
-                        ),
-                      ),
+                      const ToCurrencyField(),
 
                       const SizedBox(height: 40.0),
 
@@ -92,13 +94,16 @@ class _HomeState extends State<Home> {
                         children: [
                           Expanded(
                             child: CurrencySelectOption(
-                              defaultOption: model.fromCurrency,
+                              defaultOption: model.fromCurrencyRate.symbol,
                               onOptionChange: (option) =>
                                   model.updateFromCurrencyOption(option),
                             ),
                           ),
                           GestureDetector(
-                            onTap: () => model.swapFromAndToCurrencies(),
+                            onTap: () {
+                              model.swapFromAndToCurrencies();
+                              _textController.text = model.fromCurrencyRate.rate.toString();
+                            },
                             child: const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.0),
                               child: Icon(Icons.sync_alt),
@@ -106,7 +111,7 @@ class _HomeState extends State<Home> {
                           ),
                           Expanded(
                             child: CurrencySelectOption(
-                              defaultOption: model.toCurrency,
+                              defaultOption: model.toCurrencyRate.symbol,
                               onOptionChange: (option) =>
                                   model.updateToCurrencyOption(option),
                             ),
@@ -118,7 +123,7 @@ class _HomeState extends State<Home> {
                         height: 48.0,
                       ),
 
-                     const CurrencyConvertButton(),
+                      const CurrencyConvertButton(),
                     ],
                   ),
                 ),

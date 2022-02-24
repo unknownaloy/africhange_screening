@@ -10,20 +10,7 @@ class CurrencyConvertButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<HomeViewModel>(
       builder: (_, model, __) => TextButton(
-        onPressed: () {
-          if (model.fromCurrencyRate == 0) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text("Please enter a valid amount"),
-                ),
-              );
-            return;
-          }
-
-          model.convertCurrency();
-        },
+        onPressed: () => model.calculateConversionRate(),
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(kAccentColor),
           minimumSize:

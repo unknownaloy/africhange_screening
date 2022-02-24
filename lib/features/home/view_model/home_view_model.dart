@@ -16,22 +16,15 @@ class HomeViewModel extends ChangeNotifier {
   RequestState _requestState = const RequestState.idle();
   RequestState get requestState => _requestState;
 
-  String _fromCurrency = "EUR";
-  String get fromCurrency => _fromCurrency;
+  CurrencyRate _fromCurrencyRate = const CurrencyRate(
+    symbol: "EUR",
+    rate: 1,
+  );
 
-  String _toCurrency = "NGN";
-  String get toCurrency => _toCurrency;
+  CurrencyRate get fromCurrencyRate => _fromCurrencyRate;
 
-  num _fromCurrencyRate = 0;
-  num get fromCurrencyRate => _fromCurrencyRate;
-
-  num _toCurrencyRate = 0;
-  num get toCurrencyRate => _toCurrencyRate;
-
-  // CurrencyRate _testingOne = CurrencyRate(
-  //   symbol: "EUR",
-  //   rate: 0,
-  // );
+  late CurrencyRate _toCurrencyRate;
+  CurrencyRate get toCurrencyRate => _toCurrencyRate;
 
   void fetchLatestCurrencyRates() async {
     try {
@@ -40,6 +33,12 @@ class HomeViewModel extends ChangeNotifier {
       _currencyRates = await _currencyService.getLatestCurrencyRates();
 
       _requestState = const RequestState.success();
+
+      /// Setting the default toCurrency to Naira
+      _toCurrencyRate = _currencyRates.firstWhere(
+        (currency) => currency.symbol == "NGN",
+      );
+
       notifyListeners();
     } on Failure catch (e) {
       _requestState = RequestState.error(error: e.message);
@@ -48,11 +47,12 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void swapFromAndToCurrencies() {
-    final previousFromCurrency = _fromCurrency;
-    final previousToCurrency = _toCurrency;
+    final previousFromCurrency = _fromCurrencyRate;
+    final previousToCurrency = _toCurrencyRate;
 
-    _fromCurrency = previousToCurrency;
-    _toCurrency = previousFromCurrency;
+    _fromCurrencyRate = previousToCurrency;
+    _toCurrencyRate = previousFromCurrency;
+
     notifyListeners();
   }
 
@@ -61,11 +61,11 @@ class HomeViewModel extends ChangeNotifier {
       return;
     }
 
-    if (option == _toCurrency) {
-      _toCurrency = _fromCurrency;
+    if (option == _toCurrencyRate.symbol) {
+      _toCurrencyRate = _fromCurrencyRate;
     }
 
-    _fromCurrency = option;
+    _fromCurrencyRate = _currencyRates.firstWhere((rate) => rate.symbol == option);
     notifyListeners();
   }
 
@@ -74,11 +74,11 @@ class HomeViewModel extends ChangeNotifier {
       return;
     }
 
-    if (option == _fromCurrency) {
-      _fromCurrency = _toCurrency;
+    if (option == _fromCurrencyRate.symbol) {
+      _fromCurrencyRate = _toCurrencyRate;
     }
 
-    _toCurrency = option;
+    _toCurrencyRate = _currencyRates.firstWhere((rate) => rate.symbol == option);
     notifyListeners();
   }
 
@@ -88,10 +88,20 @@ class HomeViewModel extends ChangeNotifier {
     }
 
     final amount = int.parse(value);
-    _fromCurrencyRate = amount;
+
+    final newCurrencyRate = _fromCurrencyRate.copyWith(rate: amount);
+    _fromCurrencyRate = newCurrencyRate;
   }
 
-  void convertCurrency() {
+  void calculateConversionRate() {
+    final toRate =
+        _currencyRates.firstWhere((rate) => rate.symbol == _toCurrencyRate.symbol);
 
+    final convertedRate = (_fromCurrencyRate.rate * toRate.rate).toStringAsFixed(2);
+
+    final newToCurrencyRate = _toCurrencyRate.copyWith(rate: num.parse(convertedRate));
+
+    _toCurrencyRate = newToCurrencyRate;
+    notifyListeners();
   }
 }
