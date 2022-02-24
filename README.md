@@ -12,14 +12,8 @@ currency of their choice that the API provides
 - Run ***flutter pub get*** to get dependencies
 - Run ***flutter run*** to build the project on your emulator
 
-<a href="https://drive.google.com/uc?export=view&id=1QcyZWNGsTRnBUwT3kgZtrjoH5Hhg2J_s"><img alt="Instruction screenshot" src="https://drive.google.com/uc?export=view&id=1QcyZWNGsTRnBUwT3kgZtrjoH5Hhg2J_s" style="width: 640px" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1MkcW8KycorsHpSKnaD-ZlPQru85VYbA0"><img alt="Instruction screenshot" src="https://drive.google.com/uc?export=view&id=1MkcW8KycorsHpSKnaD-ZlPQru85VYbA0" style="width: 640px" title="Click to enlarge picture" />
 
-[Download Book Pedia for Android](https://github.com/unknownaloy/book_pedia/raw/master/apk/book_pedia.apk)
+[Download Currency Converter for Android](https://github.com/unknownaloy/africhange_screening/raw/master/apk/currency_converter.apk)
 
-<a href="https://drive.google.com/uc?export=view&id=1osb3CmeRpLYdlVVDczpSH7SaK1DwcasR"><img alt="Screenshot of the login screen" src="https://drive.google.com/uc?export=view&id=1osb3CmeRpLYdlVVDczpSH7SaK1DwcasR" style="height: 640px" title="Click to enlarge picture" />
-
-<a href="https://drive.google.com/uc?export=view&id=11q_pgR118nx5whfH6QmBAFLqYTst3Y-_"><img alt="Screenshot of the home screen" src="https://drive.google.com/uc?export=view&id=11q_pgR118nx5whfH6QmBAFLqYTst3Y-_" style="height: 640px" title="Click to enlarge picture" />
-
-<a href="https://drive.google.com/uc?export=view&id=1KaVAMHl3iaekGoeossGb53jFf2vAbB54"><img alt="Screenshot of the details screen" src="https://drive.google.com/uc?export=view&id=1KaVAMHl3iaekGoeossGb53jFf2vAbB54" style="height: 640px" title="Click to enlarge picture" />
-
-<a href="https://drive.google.com/uc?export=view&id=1rqezYVlJ0pGeVcW0y4xP7HAZe3mh063r"><img alt="Screenshot of the drawer" src="https://drive.google.com/uc?export=view&id=1rqezYVlJ0pGeVcW0y4xP7HAZe3mh063r" style="height: 640px" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1o13PnmF6_227T72Ql4FIhos8Pk5DngE7"><img alt="Screenshot of the login screen" src="https://drive.google.com/uc?export=view&id=1o13PnmF6_227T72Ql4FIhos8Pk5DngE7" style="height: 640px" title="Click to enlarge picture" />

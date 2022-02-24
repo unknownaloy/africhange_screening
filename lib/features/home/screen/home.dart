@@ -95,11 +95,23 @@ class _HomeState extends State<Home> {
                           },
                         ),
                         actions: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16.0, right: 8.0),
-                            child: Text(
-                              "Sign up",
-                              style: Theme.of(context).textTheme.headline6,
+                          GestureDetector(
+                            onTap: () {
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Coming soon"),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 16.0, right: 8.0),
+                              child: Text(
+                                "Sign up",
+                                style: Theme.of(context).textTheme.headline6,
+                              ),
                             ),
                           ),
                         ],
