@@ -56,4 +56,57 @@ class CurrencyRepository implements CurrencyRepositoryInterface {
       throw Failure("Something went wrong. Try again - $e");
     }
   }
+
+  @override
+  Future<List<num>> getPriceHistoricRange(List<String> dateRange) async {
+    try {
+      List<num> result = [];
+
+      for (String date in dateRange) {
+        Map<String, String> queryParams = {
+          "access_key": kFixerApiKey,
+          "base": "EUR",
+          "symbols": "NGN",
+        };
+
+        final injectedUrl = "$getHistoricalRateUrl/$date";
+
+        print("CurrencyRepository -> getPriceHistoricRange == injectedUrl -- $injectedUrl");
+
+        var url = Uri.parse(injectedUrl).replace(queryParameters: queryParams);
+
+        final response = await _client.get(url);
+
+        final decodedData = jsonDecode(response.body);
+
+        print("CurrencyRepository -> getPriceHistoricRange == decodedData -- $decodedData");
+
+        if (decodedData["success"] == true) {
+          final rate = decodedData["rates"] as Map<String, dynamic>;
+
+          print("CurrencyRepository -> getPriceHistoricRange == rate -- $rate");
+
+          num value = rate.entries.map((e) => e.value as num).first;
+
+          print("CurrencyRepository -> getPriceHistoricRange == value -- $value");
+
+          result.add(value);
+        }
+      }
+
+      print("CurrencyRepository -> getPriceHistoricRange == result -- $result");
+
+      return result;
+    } on SocketException catch (_) {
+      throw Failure("No internet connection");
+    } on HttpException {
+      throw Failure("Service not currently available");
+    } on TimeoutException catch (_) {
+      throw Failure("Poor internet connection");
+    } on Failure catch (e) {
+      throw Failure(e.message);
+    } catch (e) {
+      throw Failure("Something went wrong. Try again - $e");
+    }
+  }
 }

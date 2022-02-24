@@ -29,6 +29,9 @@ dependencies:
   google_fonts: ^2.3.1
   intl: ^0.17.0
 
+#  UI
+  fl_chart: ^0.45.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

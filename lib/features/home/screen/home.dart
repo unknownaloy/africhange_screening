@@ -1,5 +1,6 @@
 import 'package:africhange_screening/features/home/view_model/home_view_model.dart';
 import 'package:africhange_screening/reusables/calculator_display_text.dart';
+import 'package:africhange_screening/reusables/chart_data.dart';
 import 'package:africhange_screening/reusables/currency_convert_button.dart';
 import 'package:africhange_screening/reusables/currency_input_field.dart';
 import 'package:africhange_screening/reusables/currency_select_options.dart';
@@ -34,6 +35,8 @@ class _HomeState extends State<Home> {
     final model = context.read<HomeViewModel>();
 
     model.fetchLatestCurrencyRates();
+
+    model.getHistoricPriceRange();
 
     _textController =
         TextEditingController(text: model.fromCurrencyRate.rate.toString());
@@ -142,6 +145,31 @@ class _HomeState extends State<Home> {
                           "Mid-market exchange rate at ${DateFormatter.getTimeIn24HoursFormat()} UTC",
                           style: Theme.of(context).textTheme.overline,
                         ),
+                      ),
+
+                      const SizedBox(
+                        height: 32.0,
+                      ),
+
+                      model.historicPriceRequestState.map(
+                        idle: (_) => const Center(
+                          child: CircularProgressIndicator(
+                            color: kAccentColor,
+                            strokeWidth: 2.0,
+                          ),
+                        ),
+                        loading: (_) => const Center(
+                          child: CircularProgressIndicator(
+                            color: kAccentColor,
+                            strokeWidth: 2.0,
+                          ),
+                        ),
+                        error: (event) => Center(
+                          child: Text(
+                            event.error,
+                          ),
+                        ),
+                        success: (_) => const ChartData(),
                       ),
                     ],
                   ),

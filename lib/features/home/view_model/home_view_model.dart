@@ -1,6 +1,7 @@
 import 'package:africhange_screening/data/models/currency_rate.dart';
 import 'package:africhange_screening/data/repository/currency_repository.dart';
 import 'package:africhange_screening/enums/request_state.dart';
+import 'package:africhange_screening/utils/date_formatter.dart';
 import 'package:africhange_screening/utils/failure.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +14,14 @@ class HomeViewModel extends ChangeNotifier {
   List<CurrencyRate> _currencyRates = [];
   List<CurrencyRate> get currencyRates => [..._currencyRates];
 
+  List<num> _historicPriceData = [];
+  List<num> get historicPriceData => [..._historicPriceData];
+
   RequestState _requestState = const RequestState.idle();
   RequestState get requestState => _requestState;
+
+  RequestState _historicPriceRequestState = const RequestState.idle();
+  RequestState get historicPriceRequestState => _historicPriceRequestState;
 
   CurrencyRate _fromCurrencyRate = const CurrencyRate(
     symbol: "EUR",
@@ -46,6 +53,22 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
+  void getHistoricPriceRange() async {
+    try {
+      _historicPriceRequestState = const RequestState.loading();
+
+      _historicPriceData = await _currencyService.getPriceHistoricRange(
+        DateFormatter.getDaysInBetween(30),
+      );
+
+      _historicPriceRequestState = const RequestState.success();
+      notifyListeners();
+    } on Failure catch (e) {
+      _historicPriceRequestState = RequestState.error(error: e.message);
+      notifyListeners();
+    }
+  }
+
   void swapFromAndToCurrencies() {
     final previousFromCurrency = _fromCurrencyRate;
     final previousToCurrency = _toCurrencyRate;
@@ -65,7 +88,8 @@ class HomeViewModel extends ChangeNotifier {
       _toCurrencyRate = _fromCurrencyRate;
     }
 
-    _fromCurrencyRate = _currencyRates.firstWhere((rate) => rate.symbol == option);
+    _fromCurrencyRate =
+        _currencyRates.firstWhere((rate) => rate.symbol == option);
     notifyListeners();
   }
 
@@ -78,7 +102,8 @@ class HomeViewModel extends ChangeNotifier {
       _fromCurrencyRate = _toCurrencyRate;
     }
 
-    _toCurrencyRate = _currencyRates.firstWhere((rate) => rate.symbol == option);
+    _toCurrencyRate =
+        _currencyRates.firstWhere((rate) => rate.symbol == option);
     notifyListeners();
   }
 
@@ -94,12 +119,14 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void calculateConversionRate() {
-    final toRate =
-        _currencyRates.firstWhere((rate) => rate.symbol == _toCurrencyRate.symbol);
+    final toRate = _currencyRates
+        .firstWhere((rate) => rate.symbol == _toCurrencyRate.symbol);
 
-    final convertedRate = (_fromCurrencyRate.rate * toRate.rate).toStringAsFixed(2);
+    final convertedRate =
+        (_fromCurrencyRate.rate * toRate.rate).toStringAsFixed(2);
 
-    final newToCurrencyRate = _toCurrencyRate.copyWith(rate: num.parse(convertedRate));
+    final newToCurrencyRate =
+        _toCurrencyRate.copyWith(rate: num.parse(convertedRate));
 
     _toCurrencyRate = newToCurrencyRate;
     notifyListeners();
