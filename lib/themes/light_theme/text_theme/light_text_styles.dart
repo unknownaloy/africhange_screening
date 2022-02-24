@@ -18,7 +18,7 @@ final kHeadLine6Style = _primaryFontFamily.copyWith(
 );
 
 final kBodyLargeStyle = _primaryFontFamily.copyWith(
-  fontSize: 19.0,
+  fontSize: 18.0,
   fontWeight: FontWeight.w600,
   color: kWhiteColor,
 );
