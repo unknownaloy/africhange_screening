@@ -29,3 +29,10 @@ final kButtonTextStyle = _primaryFontFamily.copyWith(
   color: kWhiteColor,
 );
 
+final kOverLineTextStyle = _primaryFontFamily.copyWith(
+  fontSize: 12.0,
+  fontWeight: FontWeight.w600,
+  color: kSecondaryColor,
+  decoration: TextDecoration.underline,
+);
+

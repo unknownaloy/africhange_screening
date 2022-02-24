@@ -6,4 +6,5 @@ final TextTheme kLightTextTheme = TextTheme(
   headline6: kHeadLine6Style,
   bodyText2: kBodyText2Style,
   button: kButtonTextStyle,
+  overline: kOverLineTextStyle,
 );

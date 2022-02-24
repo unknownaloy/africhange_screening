@@ -6,6 +6,7 @@ import 'package:africhange_screening/reusables/currency_select_options.dart';
 import 'package:africhange_screening/reusables/custom_app_bar.dart';
 import 'package:africhange_screening/reusables/to_currency_field.dart';
 import 'package:africhange_screening/themes/colors/colors.dart';
+import 'package:africhange_screening/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -51,7 +52,12 @@ class _HomeState extends State<Home> {
           child: Consumer<HomeViewModel>(
             builder: (_, model, __) {
               return model.requestState.map(
-                idle: (_) => Text("Nothing to load"),
+                idle: (_) => const Center(
+                  child: CircularProgressIndicator(
+                    color: kAccentColor,
+                    strokeWidth: 2.0,
+                  ),
+                ),
                 loading: (_) => const Center(
                   child: CircularProgressIndicator(
                     color: kAccentColor,
@@ -102,7 +108,8 @@ class _HomeState extends State<Home> {
                           GestureDetector(
                             onTap: () {
                               model.swapFromAndToCurrencies();
-                              _textController.text = model.fromCurrencyRate.rate.toString();
+                              _textController.text =
+                                  model.fromCurrencyRate.rate.toString();
                             },
                             child: const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -124,6 +131,18 @@ class _HomeState extends State<Home> {
                       ),
 
                       const CurrencyConvertButton(),
+
+                      const SizedBox(
+                        height: 32.0,
+                      ),
+
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Mid-market exchange rate at ${DateFormatter.getTimeIn24HoursFormat()} UTC",
+                          style: Theme.of(context).textTheme.overline,
+                        ),
+                      ),
                     ],
                   ),
                 ),
